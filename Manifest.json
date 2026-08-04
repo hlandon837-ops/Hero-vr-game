@@ -1,0 +1,9 @@
+{
+  "name": "Super Overlord VR Arena",
+  "short_name": "OverlordVR",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#7a22ff",
+  "orientation": "landscape"
+}
