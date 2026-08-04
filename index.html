@@ -16,7 +16,6 @@
           this.isSwinging = false;
           this.lastHandPos = new THREE.Vector3();
           
-          // Trigger physics calculation when the side grip is pulled
           this.el.addEventListener('gripdown', (e) => {
             this.isSwinging = true;
             this.lastHandPos.copy(e.detail.target.object3D.position);
@@ -33,11 +32,9 @@
           let currentHandPos = this.el.object3D.position;
           let deltaMovement = new THREE.Vector3().subVectors(this.lastHandPos, currentHandPos);
           
-          // Physics momentum adjustment (How high/far you fly)
           let speedMultiplier = 4.2; 
           this.rig.object3D.position.addScaledVector(deltaMovement, speedMultiplier);
           
-          // Custom anti-float falling gravity baseline
           if (this.rig.object3D.position.y > 0) {
             this.rig.object3D.position.y -= 0.08; 
           } else {
@@ -50,10 +47,15 @@
     </script>
   </head>
   <body>
-    <a-scene background="color: #0d061f" embedded style="height: 100%; width: 100%;">
+    <!-- Our active dark neon superhero arena -->
+    <a-scene background="color: #0d061f">
       
-      <!-- A rotating center core target point -->
-      <a-box position="0 1.5 -3" color="#ff0055" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
+      <!-- CORE ILLUMINATION: Forces shapes to render in the dark purple sky -->
+      <a-ambient-light color="#ffffff"></a-ambient-light>
+      <a-directional-light color="#ff00bb" position="-1 2 1"></a-directional-light>
+      
+      <!-- A rotating center core target point directly in view -->
+      <a-box position="0 1.5 -5" color="#ff0055" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
       
       <!-- Lord Doomsday (Doctor Doom Variant) -->
       
@@ -68,11 +70,13 @@
       
 
       <!-- Neon Skyscrapers to test your hand swing jumps -->
-      <a-box position="-6 3 -12" width="4" height="6" depth="4" color="#00ffcc"></a-box>
-      <a-box position="6 5 -15" width="5" height="10" depth="5" color="#ff0055"></a-box>
-      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#1a1230"></a-plane>
+      <a-box position="-6 0 -15" width="4" height="6" depth="4" color="#00ffcc"></a-box>
+      <a-box position="6 0 -18" width="5" height="10" depth="5" color="#ff0055"></a-box>
+      
+      <!-- Ground Floor Grid -->
+      <a-grid position="0 0 0" cellColor="#ff00bb" color="#1a1230"></a-grid>
 
-      <!-- Fully functional Hand Tracking VR Rig -->
+      <!-- Fixed Spacing Rig: Moves your starting position back so you aren't inside objects -->
       
         <a-camera position="0 1.6 0"></a-camera>
         
